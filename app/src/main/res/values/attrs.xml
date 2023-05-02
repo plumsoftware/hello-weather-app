@@ -1,0 +1,11 @@
+<resources>
+    <attr name="iconPrimaryColor" format="color" />
+    <attr name="harmonizeIconPrimaryColor" format="boolean" />
+    <attr name="ripplePrimaryColor" format="color" />
+    <attr name="harmonizeRipplePrimaryColor" format="boolean" />
+    <declare-styleable name="AppWidgetAttrs">
+        <attr name="appWidgetPadding" format="dimension" />
+        <attr name="appWidgetInnerRadius" format="dimension" />
+        <attr name="appWidgetRadius" format="dimension" />
+    </declare-styleable>
+</resources>
