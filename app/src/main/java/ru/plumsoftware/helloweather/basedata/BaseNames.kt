@@ -23,6 +23,7 @@ object BaseNames {
         "pattern"
     )
 
-    const val APP_ID = "f2925a90b9dfc974adc60c4f4c28ee04"
+    const val APP_ID = "dba09e6c9e97932e3e6b033d1ad8dd5c"
+    const val RUSTORE_URL = "https://www.rustore.ru/catalog/app/ru.plumsoftware.helloweather"
     const val HEIGHT_COEFFICIENT = 2.0
 }

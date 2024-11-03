@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -18,19 +16,12 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.yandex.mobile.ads.common.MobileAds
 import ru.plumsoftware.helloweather.basedata.BaseNames
 import ru.plumsoftware.helloweather.basedata.BaseUnits
-import ru.plumsoftware.helloweather.basedata.UserLocation
-import ru.plumsoftware.helloweather.forecastdata.CurrentWeatherForecast
 import ru.plumsoftware.helloweather.fragments.ForecastFragment
 import ru.plumsoftware.helloweather.fragments.LocationFragment
 import ru.plumsoftware.helloweather.fragments.SettingsFragment
-import ru.plumsoftware.helloweather.retrofitmethods.RequestsMethods
 import java.util.*
 
 //    UNITS
@@ -58,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        MobileAds.initialize(this, {})
 
 //        Variables
         sharedPreferences =

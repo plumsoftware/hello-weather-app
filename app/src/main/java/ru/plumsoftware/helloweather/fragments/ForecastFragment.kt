@@ -18,6 +18,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -45,7 +47,6 @@ import java.util.*
 var speed: Double? = 0.0
 
 class ForecastFragment : Fragment() {
-//    private val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 123
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -225,6 +226,7 @@ class ForecastFragment : Fragment() {
         return view
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.share -> {
@@ -236,6 +238,7 @@ class ForecastFragment : Fragment() {
     }
 
     /** HERE **/
+    @Suppress("DEPRECATION")
     private fun takeScreenshot(view: View): Bitmap {
         view.isDrawingCacheEnabled = true
         val bitmap = Bitmap.createBitmap(view.drawingCache)
@@ -244,39 +247,34 @@ class ForecastFragment : Fragment() {
     }
 
     private fun saveScreenshot(bitmap: Bitmap, fileName: String) {
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest?.permission?.WRITE_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            requestPermissions(
-//                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//                MY_PERMISSIONS_REQUEST_WRITE_STORAGE
-//            )
-//        } else {
         val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            .toString() + "/$fileName.jpg"
+            .toString() + "/$fileName.png"
         val file = File(filePath)
         val outputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         outputStream.flush()
         outputStream.close()
-//        }
     }
 
     private fun shareScreenshot(fileName: String) {
         val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            .toString() + "/$fileName.jpg"
+            .toString() + "/$fileName.png"
         val fileProvider = requireContext().packageName + ".provider"
         val uri = FileProvider.getUriForFile(requireContext(), fileProvider, File(filePath))
-        //val imageUri = Uri.parse("file:/$filePath") /** **/
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         startActivity(Intent.createChooser(intent, "Share screenshot"))
     }
 
+    private fun checkPermissions() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+        }
+    }
+
     private fun takeAndShareScreenshot() {
+        checkPermissions()
         val rootView = requireActivity().window.decorView.findViewById<View>(android.R.id.content)
         val screenshot = takeScreenshot(rootView)
         val timestamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault()).format(Date())
@@ -285,13 +283,13 @@ class ForecastFragment : Fragment() {
         shareScreenshot(fileName)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_STORAGE) {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             val rootView =
                 requireActivity().window.decorView.findViewById<View>(android.R.id.content)
@@ -303,6 +301,5 @@ class ForecastFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Нет доступа к хранилищу.", Toast.LENGTH_SHORT).show()
         }
-//        }
     }
 }
