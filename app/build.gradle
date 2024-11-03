@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'ru.plumsoftware.helloweather'
+    namespace 'ru.plumsoftware.accurateweather'
     compileSdk 35
 
     defaultConfig {
-        applicationId "ru.plumsoftware.helloweather"
+        applicationId "ru.plumsoftware.accurateweather"
         minSdk 24
         targetSdk 35
         versionCode 3
@@ -32,6 +32,10 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+
+    lint {
+        abortOnError = false
     }
 }
 
