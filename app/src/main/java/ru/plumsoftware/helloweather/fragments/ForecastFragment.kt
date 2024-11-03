@@ -110,7 +110,7 @@ class ForecastFragment : Fragment() {
 
         currentWeather.enqueue(object : Callback<CurrentWeatherForecast> {
             override fun onFailure(call: Call<CurrentWeatherForecast>, t: Throwable) {
-                Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+
             }
 
             @SuppressLint("SetTextI18n")

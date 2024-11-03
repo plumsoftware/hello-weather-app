@@ -16,6 +16,14 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yandex.mobile.ads.appopenad.AppOpenAd
+import com.yandex.mobile.ads.appopenad.AppOpenAdEventListener
+import com.yandex.mobile.ads.appopenad.AppOpenAdLoadListener
+import com.yandex.mobile.ads.appopenad.AppOpenAdLoader
+import com.yandex.mobile.ads.common.AdError
+import com.yandex.mobile.ads.common.AdRequestConfiguration
+import com.yandex.mobile.ads.common.AdRequestError
+import com.yandex.mobile.ads.common.ImpressionData
 import com.yandex.mobile.ads.common.MobileAds
 import ru.plumsoftware.helloweather.basedata.BaseNames
 import ru.plumsoftware.helloweather.basedata.BaseUnits
@@ -45,12 +53,43 @@ var appearance: String? = BaseUnits.appearance[0]
 
 var sharedPreferences: SharedPreferences? = null
 
+var ads: Int = 0
+
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MobileAds.initialize(this, {})
+        MobileAds.initialize(this) {
+            if (ads == 0) {
+                ads ++
+                val appOpenAdLoader = AppOpenAdLoader(application)
+                val adRequestConfigurationOpenAds =
+                    AdRequestConfiguration.Builder(BaseNames.APP_OPEN_ADS).build()
+                val appOpenAdLoadListener = object : AppOpenAdLoadListener {
+                    override fun onAdLoaded(appOpenAd: AppOpenAd) {
+                        val myAppOpenAd: AppOpenAd = appOpenAd
+                        myAppOpenAd.setAdEventListener(object : AppOpenAdEventListener {
+                            override fun onAdClicked() {}
+
+                            override fun onAdDismissed() {}
+
+                            override fun onAdFailedToShow(adError: AdError) {}
+
+                            override fun onAdImpression(impressionData: ImpressionData?) {}
+
+                            override fun onAdShown() {}
+                        })
+                        myAppOpenAd.show(this@MainActivity)
+                    }
+
+                    override fun onAdFailedToLoad(error: AdRequestError) {}
+                }
+                appOpenAdLoader.setAdLoadListener(appOpenAdLoadListener)
+                appOpenAdLoader.loadAd(adRequestConfigurationOpenAds)
+            }
+        }
 
 //        Variables
         sharedPreferences =

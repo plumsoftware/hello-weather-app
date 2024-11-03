@@ -121,12 +121,12 @@ class BlankFragment : Fragment() {
                 try {
                     recyclerView.adapter = SmallWeatherAdapter(context!!, activity!!, items)
                 } catch (e: java.lang.Exception) {
-                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+
                 }
             }
 
             override fun onFailure(call: Call<HourlyWeatherForecast>, t: Throwable) {
-                Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+
             }
         })
 
