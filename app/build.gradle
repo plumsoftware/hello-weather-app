@@ -11,8 +11,8 @@ android {
         applicationId "ru.plumsoftware.accurateweather"
         minSdk 24
         targetSdk 35
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,5 +61,5 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
 
 //    Ads
-    implementation 'com.yandex.android:mobileads:7.6.0'
+    implementation 'com.yandex.android:mobileads:7.9.0'
 }
